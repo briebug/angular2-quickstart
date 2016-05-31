@@ -22,7 +22,7 @@
                     [(ngModel)]="model.power"
                     ngControl="power" #power="ngForm" >
                 <option disabled>select</option>
-                <option *ngFor="#p of powers" [value]="p">{{p}}</option>
+                <option *ngFor="let p of powers" [value]="p">{{p}}</option>
             </select>
             <div [hidden]="power.valid || power.pristine" class="alert alert-danger">
                 Power is required

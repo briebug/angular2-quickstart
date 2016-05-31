@@ -1,4 +1,4 @@
-import {Component, OnInit} from 'angular2/core';
+import {Component, OnInit} from '@angular/core';
 
 @Component({
     templateUrl:  'app/components/crisis-center/crisis-detail/crisis-detail.component.html'

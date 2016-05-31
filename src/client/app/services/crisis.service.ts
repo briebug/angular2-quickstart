@@ -1,4 +1,4 @@
-import {Injectable} from 'angular2/core';
+import {Injectable} from '@angular/core';
 import {Crisis} from '../models/crisis';
 import {CRISIS} from '../mocks/mock-crisis';
 

@@ -1,5 +1,5 @@
-import {Component, OnInit} from 'angular2/core';
-import { Router, RouteConfig, RouterOutlet } from 'angular2/router';
+import {Component, OnInit} from '@angular/core';
+import { Router, RouteConfig, RouterOutlet } from '@angular/router-deprecated';
 
 import {CrisisNavComponent} from './crisis-nav/crisis-nav.component';
 import {CrisisListComponent} from './crisis-list/crisis-list.component';

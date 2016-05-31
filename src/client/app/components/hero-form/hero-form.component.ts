@@ -1,6 +1,6 @@
-import {Component, Input} from 'angular2/core';
-import {FORM_DIRECTIVES} from 'angular2/common';
-import {NgForm}    from 'angular2/common';
+import {Component, Input} from '@angular/core';
+import {FORM_DIRECTIVES} from '@angular/common';
+import {NgForm}    from '@angular/common';
 import { Hero }    from '../../models/hero';
 
 @Component({
