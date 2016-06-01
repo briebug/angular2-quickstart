@@ -1,9 +1,10 @@
 .idea/
 node_modules/
 typings/
-reports/
-
-src/client/app/**/*.js
-src/client/app/**/*.js.map
 
 .DS_Store
+
+src/client/app/components/**/*.js
+src/client/app/components/**/*.js.map
+
+reports/
