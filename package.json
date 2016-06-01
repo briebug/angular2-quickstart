@@ -8,7 +8,8 @@
     "lite": "lite-server",
     "typings": "typings",
     "postinstall": "typings install",
-    "test": "tsc && concurrently \"tsc -w\" \"karma start karma.conf.js\""
+    "test": "tsc && concurrently \"karma start karma.conf.js --single-run\"",
+    "autotest": "tsc && concurrently \"tsc -w\" \"karma start karma.conf.js --auto-watch \""
   },
   "license": "ISC",
   "dependencies": {
