@@ -1,5 +1,9 @@
 .idea/
 node_modules/
 typings/
+reports/
+
+src/client/app/**/*.js
+src/client/app/**/*.js.map
 
 .DS_Store
