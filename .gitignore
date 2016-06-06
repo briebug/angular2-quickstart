@@ -6,5 +6,8 @@ typings/
 
 src/client/app/components/**/*.js
 src/client/app/components/**/*.js.map
-
+src/client/test-helpers/*.js
+src/client/test-helpers/*.js.map
 reports/
+
+npm-debug.log

@@ -5,7 +5,11 @@ System.register([], function(exports_1, context_1) {
     return {
         setters:[],
         execute: function() {
-            exports_1("CRISIS", CRISIS = []);
+            exports_1("CRISIS", CRISIS = [
+                { "id": 1, "name": "Hurricane" },
+                { "id": 2, "name": "Armed Bandits" },
+                { "id": 3, "name": "Nuclear Meltdown" }
+            ]);
         }
     }
 });

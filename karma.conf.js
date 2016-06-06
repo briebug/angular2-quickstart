@@ -1,7 +1,7 @@
 module.exports = function(config) {
 
     var appBase   = 'src/client/app/components/';      // transpiled app JS files
-    var appAssets ='/base/src/client/app/components/'; // component assets fetched by Angular's compiler
+    var appAssets ='/src/client/app/components/'; // component assets fetched by Angular's compiler
     var client = 'src/client/';
 
     config.set({
@@ -12,15 +12,6 @@ module.exports = function(config) {
             require('karma-phantomjs-launcher'),
             require('karma-htmlfile-reporter')
         ],
-
-        customLaunchers: {
-            // From the CLI. Not used here but interesting
-            // chrome setup for travis CI using chromium
-            Chrome_travis_ci: {
-                base: 'Chrome', 
-                flags: ['--no-sandbox']
-            }
-        },
         files: [
             // System.js for module loading
             'node_modules/systemjs/dist/system.src.js',
@@ -43,13 +34,16 @@ module.exports = function(config) {
             // Angular 2 itself and the testing library
             {pattern: 'node_modules/@angular/**/*.js', included: false, watched: false},
             {pattern: 'node_modules/@angular/**/*.js.map', included: false, watched: false},
-            
+
 
             {pattern: 'systemjs.config.js', included: false, watched: false},
             'karma-test-shim.js',
 
             // transpiled application & spec code paths loaded via module imports
             {pattern: appBase + '**/*.js', included: false, watched: true},
+            //Services
+            {pattern: client + '**/*.js', included: false, watched: true},
+            //Mocks
             {pattern: client + 'test-helpers/*.js', included: false, watched: true},
 
 
@@ -61,11 +55,16 @@ module.exports = function(config) {
         // proxied base paths for loading assets
         proxies: {
             // required for component assets fetched by Angular's compiler
-            "/src/client/app/components/": appAssets
+            "/app/": "/src/client/app/components/",
+            "/src/client/app/components/": appAssets,
+            "/test/": '/client/app/components/',
+            "/node_modules/": '/base/node_modules/'
         },
 
         exclude: [],
-        preprocessors: {},
+        preprocessors: {
+        },
+
         reporters: ['progress', 'html'],
 
         // HtmlReporter configuration
