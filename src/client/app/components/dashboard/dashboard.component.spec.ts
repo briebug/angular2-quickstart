@@ -10,6 +10,7 @@ import {
 
 import {TestComponentBuilder} from '@angular/compiler/testing';
 import { Component } from '@angular/core';
+import { Router, ROUTER_PROVIDERS, RootRouter } from '@angular/router-deprecated';
 
 import {provide} from '@angular/core';
 
@@ -29,9 +30,11 @@ class TestComponent {
 
 describe('Dashboard Component: ', () => {
 
-    beforeEachProviders(() => {
-        provide(HeroService, {useClass: HeroServiceMock});
-    });
+    beforeEachProviders(() => [
+        provide(HeroService, {useClass: HeroServiceMock}),
+        provide(Router, {useClass: RootRouter}),
+            ROUTER_PROVIDERS
+    ]);
     
         it('should grab heroes from service', async(inject([TestComponentBuilder],
             (tcb: TestComponentBuilder) => {
