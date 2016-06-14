@@ -1,48 +1,84 @@
+// Import testing functions
 import {
-    async,
-    beforeEach,
-    it,
-    describe,
     expect,
+    it, xit, fit,
+    describe, xdescribe, fdescribe,
+    beforeEach, afterEach,
+    async,
     inject,
     beforeEachProviders,
 } from '@angular/core/testing';
 
+// Import required items for testing
 import {TestComponentBuilder} from '@angular/compiler/testing';
-import { Component } from '@angular/core';
-import { Router, ROUTER_PROVIDERS, RootRouter } from '@angular/router-deprecated';
-
 import {provide} from '@angular/core';
 
+// Import the component being tested
 import {DashboardComponent} from './dashboard.component';
+
+// Import component dependencies and their mock
+import {Router} from '@angular/router-deprecated';
+import {RootRouterMock} from '../../../test-helpers/RootRouterMock';
 
 import {HeroService} from '../../services/hero.service';
 import {HeroServiceMock} from '../../../test-helpers/HeroServiceMock';
 
-@Component({
-    selector: 'as-test',
-    template: '<my-dashboard></my-dashboard>',
-    directives: [DashboardComponent]
-})
-class TestComponent {
-
-}
-
-describe('Dashboard Component: ', () => {
-
+describe('Component: Dashboard', () => {
     beforeEachProviders(() => [
+        // Mock each dependency
         provide(HeroService, {useClass: HeroServiceMock}),
-        provide(Router, {useClass: RootRouter}),
-            ROUTER_PROVIDERS
+        provide(Router, {useClass: RootRouterMock})
     ]);
-    
-        it('should grab heroes from service', async(inject([TestComponentBuilder],
-            (tcb: TestComponentBuilder) => {
-                tcb.createAsync(TestComponent).then((fixture) => {
-                    fixture.detectChanges();
 
-                    let compiled = fixture.debugElement.nativeElement;
-                    expect(compiled).toBeDefined();
+    it('Should create the component', async(inject([TestComponentBuilder],
+        (tcb: TestComponentBuilder) => {
+            tcb.createAsync(DashboardComponent).then((fixture) => {
+                fixture.detectChanges();
+
+                let compiled = fixture.debugElement.nativeElement;
+                expect(compiled).toBeDefined();
             });
         })));
+
+    describe('For: ngOnInit', () => {
+        it('Should call HeroService.getHeroes()', async(inject([TestComponentBuilder],
+            (tcb:TestComponentBuilder) => {
+                tcb.createAsync(DashboardComponent).then((fixture) => {
+                    spyOn(fixture.componentInstance._heroService, 'getHeroes').and.callThrough();
+
+                    fixture.componentInstance.gotoDetail({id: 11});
+
+                    fixture.detectChanges();
+
+                    expect(fixture.componentInstance._heroService.getHeroes).toHaveBeenCalled();
+                });
+            })));
+
+        it('Should set this.heroes to the first 5 heroes', async(inject([TestComponentBuilder],
+            (tcb:TestComponentBuilder) => {
+                tcb.createAsync(DashboardComponent).then((fixture) => {
+                    fixture.componentInstance.ngOnInit();
+
+                    fixture.detectChanges();
+
+                    let heroes = fixture.componentInstance.heroes;
+                    expect(heroes.length).toEqual(5);
+                });
+            })));
     });
+
+    describe('For: gotoDetail', () => {
+        it('Should call Router.navigate()', async(inject([TestComponentBuilder],
+            (tcb:TestComponentBuilder) => {
+                tcb.createAsync(DashboardComponent).then((fixture) => {
+                    spyOn(fixture.componentInstance._router, 'navigate').and.callThrough();
+
+                    fixture.componentInstance.gotoDetail({id: 11});
+
+                    fixture.detectChanges();
+
+                    expect(fixture.componentInstance._router.navigate).toHaveBeenCalled();
+                });
+            })));
+    });
+});

@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import { Router } from '@angular/router-deprecated';
+import {Router} from '@angular/router-deprecated';
 
 import {Hero} from '../../models/hero';
 import {HeroService} from '../../services/hero.service';
@@ -10,7 +10,7 @@ import {HeroService} from '../../services/hero.service';
     styleUrls: ['app/components/dashboard/dashboard.component.css']
 })
 
-export class DashboardComponent  implements OnInit {
+export class DashboardComponent implements OnInit {
     heroes: Hero[] = [];
 
     constructor(
