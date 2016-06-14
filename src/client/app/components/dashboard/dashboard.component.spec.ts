@@ -62,7 +62,7 @@ describe('Component: Dashboard', () => {
                     fixture.detectChanges();
 
                     let heroes = fixture.componentInstance.heroes;
-                    expect(heroes.length).toEqual(5);
+                    expect(heroes.length).toEqual(4);
                 });
             })));
     });
