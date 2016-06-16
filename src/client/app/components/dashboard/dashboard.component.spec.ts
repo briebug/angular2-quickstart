@@ -4,21 +4,22 @@ import {
     it, xit, fit,
     describe, xdescribe, fdescribe,
     beforeEach, afterEach,
-    async,
     inject,
-    beforeEachProviders,
+    beforeEachProviders
 } from '@angular/core/testing';
 
 // Import required items for testing
-import {TestComponentBuilder} from '@angular/compiler/testing';
 import {provide} from '@angular/core';
 
 // Import the component being tested
 import {DashboardComponent} from './dashboard.component';
 
+// Import models used by the component
+import {Hero} from '../../models/hero';
+
 // Import component dependencies and their mock
 import {Router} from '@angular/router-deprecated';
-import {RootRouterMock} from '../../../test-helpers/RootRouterMock';
+import {RouterMock} from '../../../test-helpers/RouterMock';
 
 import {HeroService} from '../../services/hero.service';
 import {HeroServiceMock} from '../../../test-helpers/HeroServiceMock';
@@ -27,58 +28,43 @@ describe('Component: Dashboard', () => {
     beforeEachProviders(() => [
         // Mock each dependency
         provide(HeroService, {useClass: HeroServiceMock}),
-        provide(Router, {useClass: RootRouterMock})
+        provide(Router, {useClass: RouterMock}),
+
+        DashboardComponent
     ]);
 
-    it('Should create the component', async(inject([TestComponentBuilder],
-        (tcb: TestComponentBuilder) => {
-            tcb.createAsync(DashboardComponent).then((fixture) => {
-                fixture.detectChanges();
-
-                let compiled = fixture.debugElement.nativeElement;
-                expect(compiled).toBeDefined();
-            });
-        })));
+    it('Should create the component', inject([DashboardComponent],
+        (component: DashboardComponent) => {
+            expect(component).toBeDefined();
+        }));
 
     describe('For: ngOnInit', () => {
-        it('Should call HeroService.getHeroes()', async(inject([TestComponentBuilder],
-            (tcb:TestComponentBuilder) => {
-                tcb.createAsync(DashboardComponent).then((fixture) => {
-                    spyOn(fixture.componentInstance._heroService, 'getHeroes').and.callThrough();
+        it('Should call HeroService.getHeroes()', inject([DashboardComponent],
+            (component: DashboardComponent) => {
+                spyOn((<any>component)._heroService, 'getHeroes').and.callThrough();
 
-                    fixture.componentInstance.gotoDetail({id: 11});
+                component.ngOnInit();
 
-                    fixture.detectChanges();
+                expect((<any>component)._heroService.getHeroes).toHaveBeenCalled();
+            }));
 
-                    expect(fixture.componentInstance._heroService.getHeroes).toHaveBeenCalled();
-                });
-            })));
+        it('Should set this.heroes to the first 5 heroes', inject([DashboardComponent],
+            (component: DashboardComponent) => {
+                component.ngOnInit();
 
-        it('Should set this.heroes to the first 5 heroes', async(inject([TestComponentBuilder],
-            (tcb:TestComponentBuilder) => {
-                tcb.createAsync(DashboardComponent).then((fixture) => {
-                    fixture.componentInstance.ngOnInit();
-
-                    fixture.detectChanges();
-
-                    let heroes = fixture.componentInstance.heroes;
-                    expect(heroes.length).toEqual(4);
-                });
-            })));
+                let heroes = component.heroes;
+                expect(heroes.length).toEqual(4);
+            }));
     });
 
     describe('For: gotoDetail', () => {
-        it('Should call Router.navigate()', async(inject([TestComponentBuilder],
-            (tcb:TestComponentBuilder) => {
-                tcb.createAsync(DashboardComponent).then((fixture) => {
-                    spyOn(fixture.componentInstance._router, 'navigate').and.callThrough();
+        it('Should call Router.navigate()', inject([DashboardComponent],
+            (component: DashboardComponent) => {
+                spyOn((<any>component)._router, 'navigate').and.callThrough();
 
-                    fixture.componentInstance.gotoDetail({id: 11});
+                component.gotoDetail(new Hero(11, null));
 
-                    fixture.detectChanges();
-
-                    expect(fixture.componentInstance._router.navigate).toHaveBeenCalled();
-                });
-            })));
+                expect((<any>component)._router.navigate).toHaveBeenCalled();
+            }));
     });
 });

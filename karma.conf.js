@@ -1,7 +1,6 @@
 module.exports = function(config) {
 
-    var appBase   = 'src/client/app/components/';      // transpiled app JS files
-    var appAssets ='base/src/client/app/components/'; // component assets fetched by Angular's compiler
+    var appBase   = 'src/client/app/';      // transpiled app JS files
     var client = 'src/client/';
 
     config.set({
@@ -41,8 +40,8 @@ module.exports = function(config) {
 
             // transpiled application & spec code paths loaded via module imports
             {pattern: appBase + '**/*.js', included: false, watched: true},
-            //Services
-            {pattern: client + '**/*.js', included: false, watched: true},
+            // //Services
+            // {pattern: client + '**/*.js', included: false, watched: true},
             //Mocks
             {pattern: client + 'test-helpers/*.js', included: false, watched: true},
 
